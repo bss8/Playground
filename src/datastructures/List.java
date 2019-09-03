@@ -5,7 +5,7 @@ interface List<T> {
     void insert(T item, int position);
     T remove();
     T removeAt(int position);
-    public T get(int position);
+    T get(int position);
     int find(T item);
     int size();
 }
