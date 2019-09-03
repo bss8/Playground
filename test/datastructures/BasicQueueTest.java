@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Generic type arguments must be reference types.
  * Since primitives do not extend Object they cannot be used as generic type arguments for a parametrized type.
+ *
+ * Junit5: https://junit.org/junit5/docs/current/user-guide/
  */
 class BasicQueueTest {
     private BasicQueue<Integer> myQueue;
