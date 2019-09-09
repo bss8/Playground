@@ -16,8 +16,8 @@ public class SortingMain {
      */
     public static void main(String...args) {
         ArrayList<Integer> intList = new ArrayList<>();
-
-        for (int i = 0; i < 11; i++) {
+        long duration = 0L;
+        for (int i = 0; i < 15001; i++) {
             int x = generateRandomInt();
             intList.add(x);
         }
@@ -28,19 +28,26 @@ public class SortingMain {
 
         // BUBBLE SORT
         System.out.println("original list: " + sorting.getObjList().toString());
-        sorting.bubbleSort();
-        System.out.println("bubble sorted list: " + sorting.getObjList().toString() + "\n");
+        duration = sorting.bubbleSort();
+        System.out.println("bubble sorted list: " + sorting.getObjList().toString());
+        System.out.println("duration: " + duration + "\n");
         sorting.setObjList(unsortedList);  // set back to unsorted list to clear
 
         // INSERTION SORT
         System.out.println("original list: " + sorting.getObjList().toString());
-        sorting.insertionSort();
+        duration = sorting.insertionSort();
         System.out.println("insertion sorted list: " + sorting.getObjList().toString() + "\n");
+        System.out.println("duration: " + duration + "\n");
         sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
         // TODO: SELECTION SORT
 
-        // TODO: MERGE SORT
+        // MERGE SORT
+        System.out.println("original list: " + sorting.getObjList().toString());
+        duration = sorting.mergeSort(0, 14999);  // low is start index, high is size - 1
+        System.out.println("merge sorted list: " + sorting.getObjList().toString());
+        System.out.println("duration: " + duration + "\n");
+        sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
         // TODO: QUICK SORT
 
@@ -51,6 +58,30 @@ public class SortingMain {
 
     private static int generateRandomInt() {
         Random r = new Random(System.nanoTime());
-        return r.nextInt(100) + 1;
+        return r.nextInt(15000) + 1;
+    }
+
+    private static int findMax(ArrayList<Integer> list) {
+        int max = list.get(0);
+
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i) > max) {
+                max = list.get(i);
+            }
+        }
+
+        return max;
+    }
+
+    private static int findMin(ArrayList<Integer> list) {
+        int min = list.get(0);
+
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i) < min) {
+                min = list.get(i);
+            }
+        }
+
+        return min;
     }
 }

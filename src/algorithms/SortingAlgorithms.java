@@ -3,10 +3,10 @@ package algorithms;
 import java.util.ArrayList;
 
 public interface SortingAlgorithms<T> {
-    void bubbleSort();
-    void insertionSort();
+    long bubbleSort();
+    long insertionSort();
     void selectionSort();
-    void mergeSort();
+    long mergeSort(int low, int high);
     void quickSort();
     void heapSort();
     void radixSort();
