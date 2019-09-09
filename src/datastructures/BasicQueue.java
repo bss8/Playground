@@ -62,7 +62,7 @@ public class BasicQueue<T> implements Queue<T> {
         return item;
     }
 
-    private int getLength() {
+    int getLength() {
         return data.length;
     }
 
@@ -103,22 +103,5 @@ public class BasicQueue<T> implements Queue<T> {
         }
 
         return listString.toString();
-    }
-
-    public static void main(String...args) {
-        BasicQueue<Integer> myQueue = new BasicQueue<>(2);
-        System.out.println("length: " + myQueue.getLength());
-        System.out.println("size: " + myQueue.size());
-        System.out.println("Print queue: " + myQueue.toString());
-        myQueue.enQueue(1);
-        myQueue.enQueue(2);
-        System.out.println("Print queue: " + myQueue.toString());
-        System.out.println("size: " + myQueue.size());
-        System.out.println("contains 1? " + myQueue.contains(1));
-        myQueue.deQueue();
-        System.out.println("size: " + myQueue.size());
-        int position = 1;
-        System.out.println("item at pos." + position + " is: " + myQueue.access(position));
-        System.out.println("contains 1? " + myQueue.contains(1));
     }
 }

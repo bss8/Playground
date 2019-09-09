@@ -1,17 +1,62 @@
 package algorithms;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
+ *
+ * {@code compareTo()} returns a negative int if this.object is less than, zero if equal, or a positive if greater than
+ * the specified object.
+ *
+ * {@code <? super T>} T is is the lower bound for the wildcard ?
+ * {@code extends Comparable<? super T>} type T must implement Comparable of T or one of its super classes
+ *
+ * Use @Override annotation to take advantage of the compiler checking to make sure you actually are overriding a method.
+ *
  * @param <T>
  */
 public class Sorting<T extends Comparable<? super T>> implements SortingAlgorithms<T> {
-    public void bubbleSort(T dataObj) {
 
+    private ArrayList<T> objList;
+
+    Sorting(ArrayList<T> unsortedList) {
+        this.objList = unsortedList;
     }
 
-    public void insertionSort(ArrayList<T> objList) {
+    void setObjList(ArrayList<T> objList) {
+        this.objList = objList;
+    }
+
+    ArrayList getObjList() {
+        return this.objList;
+    }
+
+    /**
+     * O(n^2) sorting algorithm, due to number of passes
+     */
+    @Override
+    public void bubbleSort() {
+        boolean swapPerformed;
+
+        do {
+            swapPerformed = false;
+
+            for (int i = 0; i < objList.size() - 1; i++) {
+                if (objList.get(i).compareTo(objList.get(i + 1)) > 0) {
+                    T tmp = objList.get(i + 1);
+                    objList.set(i + 1, objList.get(i));
+                    objList.set(i, tmp);
+
+                    swapPerformed = true;
+                }
+            }
+        } while (swapPerformed);
+    }
+
+    /**
+     * O(n^2) sorting algorithm, due to nested loops
+     */
+    @Override
+    public void insertionSort() {
 
         for (int i = 1; i < objList.size(); i++) {
             T key = objList.get(i);
@@ -25,46 +70,43 @@ public class Sorting<T extends Comparable<? super T>> implements SortingAlgorith
         }
     }
 
+    /**
+     *
+     */
     @Override
-    public void selectionSort(T dataObj) {
+    public void selectionSort() {
 
     }
 
-    public void mergeSort(T dataObj) {
+    /**
+     *
+     */
+    @Override
+    public void mergeSort() {
 
     }
 
-    public void quickSort(T dataObj) {
+    /**
+     *
+     */
+    @Override
+    public void quickSort() {
 
     }
 
-    public void heapSort(T dataObj) {
+    /**
+     *
+     */
+    @Override
+    public void heapSort() {
 
     }
 
-    public void radixSort(T dataObj) {
+    /**
+     *
+     */
+    @Override
+    public void radixSort() {
 
     }
-
-    private int generateRandomInt() {
-        Random r = new Random(System.nanoTime());
-        return r.nextInt(100) + 1;
-    }
-
-    public static void main(String...args) {
-        ArrayList<Integer> intList = new ArrayList<>();
-        Sorting sorting = new Sorting();
-
-        for (int i = 0; i < 11; i++) {
-            int x = sorting.generateRandomInt();
-            intList.add(x);
-        }
-
-        System.out.println("Unsorted list: " + intList.toString());
-
-        sorting.insertionSort(intList);
-
-        System.out.println("Sorted list: " + intList.toString());
-    }
-
-}
+} // end class

@@ -167,22 +167,4 @@ public class BasicList<T> implements List<T> {
             return nodeItem;
         }
     }
-
-    public static void main(String...args) {
-        BasicList<Integer> myBasicList = new BasicList<>();
-        myBasicList.add(1);
-        myBasicList.add(3);
-        myBasicList.add(4);
-        myBasicList.add(5);
-        myBasicList.add(6);
-
-        System.out.println(myBasicList.toString());
-        myBasicList.insert(2,1);
-        System.out.println(myBasicList.toString());
-
-        myBasicList.removeAt(5);
-        System.out.println(myBasicList.toString());
-        myBasicList.remove();
-        System.out.println(myBasicList.toString());
-    }
 }
