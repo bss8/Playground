@@ -1,7 +1,6 @@
 package algorithms;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  *
@@ -17,7 +16,7 @@ public class SortingMain {
     public static void main(String...args) {
         ArrayList<Integer> intList = new ArrayList<>();
         long duration = 0L;
-        for (int i = 0; i < 15001; i++) {
+        for (int i = 0; i < 51; i++) {
             int x = generateRandomInt();
             intList.add(x);
         }
@@ -44,7 +43,7 @@ public class SortingMain {
 
         // MERGE SORT
         System.out.println("original list: " + sorting.getObjList().toString());
-        duration = sorting.mergeSort(0, 14999);  // low is start index, high is size - 1
+        duration = sorting.mergeSort(0, intList.size()-1);  // low is start index, high is size - 1
         System.out.println("merge sorted list: " + sorting.getObjList().toString());
         System.out.println("duration: " + duration + "\n");
         sorting.setObjList(unsortedList); // set back to unsorted list to clear
@@ -54,6 +53,24 @@ public class SortingMain {
         // TODO: HEAP SORT
 
         // TODO: RADIX SORT
+
+        List<Integer> ints = Arrays.asList(7, 4, 6, 3, 9, 1);
+        int k = 0;
+
+        System.out.println("K'th largest element in the array is " +
+                FindKthLargest(ints, k));
+        // 1,2,3,4 ,5 ,6
+        // 1,3,6,10,15,21
+        //
+
+        int b = 0;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j <= i; j++) {
+                b++;
+            }
+        }
+        System.out.println(b);
+
     }
 
     private static int generateRandomInt() {
@@ -83,5 +100,24 @@ public class SortingMain {
         }
 
         return min;
+    }
+
+    // Function to find the K'th largest element in the
+    // array using max-heap
+    public static int FindKthLargest(List<Integer> ints, int k)
+    {
+        // create an max-heap using PriorityQueue class from all
+        // elements in the list
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+        // or pass Comparator.reverseOrder()
+        pq.addAll(ints);
+
+        // pop from max-heap exactly (k-1) times
+        while (--k > 0) {
+            pq.poll();
+        }
+
+        // return the root of max-heap
+        return pq.peek();
     }
 }

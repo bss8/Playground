@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @param <T>
  */
-public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorithms<T>, Runnable {
+public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorithms<T> {
 
     private ArrayList<T> objList;
 
@@ -135,11 +135,6 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
 
         Instant finish = Instant.now();
         return Duration.between(start, finish).toMillis();
-    }
-
-    @Override
-    public void run() {
-
     }
 
     /**

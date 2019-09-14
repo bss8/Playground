@@ -9,7 +9,7 @@ import java.util.concurrent.RecursiveAction;
  * Fork-join framework by Doug Lea: http://gee.cs.oswego.edu/dl/papers/fj.pdf
  * Code from: http://blog.quibb.org/2010/03/jsr-166-the-java-forkjoin-framework/
  */
-public class MergeSort {
+public class ParallelMergeSort {
 
     private static final ForkJoinPool threadPool = new ForkJoinPool();
     private static final int SIZE_THRESHOLD = 16;
