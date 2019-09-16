@@ -1,5 +1,7 @@
 package leetcode;
 
+import org.omg.PortableInterceptor.INACTIVE;
+
 import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -165,6 +167,11 @@ class Easy {
 
         TreeNode binaryRoot = easyProblems.createBinaryTree();
         System.out.println("sum of binary tree branches is = " + easyProblems.sumRootToLeaf(binaryRoot));
+        System.out.println("--------------------------");
+        System.out.println("Is 4224 a pallindrome? " + easyProblems.isPalindrome(4223));
+        System.out.println("--------------------------");
+        int convertedInt = easyProblems.myAtoi("-2147483648");
+        System.out.println("Convert \"-2147483648\" to int: " + convertedInt);
 
     }
 
@@ -540,5 +547,95 @@ class Easy {
      */
     private int applyAsInt(int[] c) {
         return c[0] - c[1];
+    }
+
+    /**
+     * https://leetcode.com/problems/palindrome-number/
+     * @param x
+     * @return
+     */
+    public boolean isPalindrome(int x) {
+        int store = x;
+        int reversed = 0;
+        while (x > 0) {
+            reversed = reversed * 10 + x % 10;
+            x = x / 10;
+        }
+
+        return reversed % store == 0;
+    }
+
+    /**
+     * https://leetcode.com/problems/string-to-integer-atoi/
+     * @param str
+     * @return
+     */
+    public int badatoi(String str) {
+        if (str.equals("") || str.length() == 0) { return 0; }
+        StringBuilder sb;
+        boolean isNegative = false;
+        if (str.charAt(0) == ('-')) {
+            isNegative = true;
+            str = str.substring(1);
+        }
+
+        sb = new StringBuilder(100);
+        byte[] byteStr = str.getBytes();
+
+        for (int i = 0; i < byteStr.length; i++) {
+            byte b = byteStr[i];
+            int a = Integer.parseInt(String.format("%04X", b));
+            if (a > 39 && i == 0) return 0;
+            if (!(a > 39))
+                a = a - 30;
+            if (a > 0) sb.append(a);
+        }
+
+
+        BigInteger val = new BigInteger(sb.toString());
+        if (isNegative) {
+            val = val.negate();
+        }
+        if (val.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+            return Integer.MAX_VALUE;
+        } else if (val.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0) {
+            return Integer.MIN_VALUE;
+        } else {
+            return isNegative ? -Integer.parseInt(sb.toString()) : Integer.parseInt(sb.toString());
+        }
+    }
+
+    public int myAtoi(String str) {
+        // time complexity : O(log(str.length()))
+        // space complexity : O(1)
+
+        str = str.trim();  // remove whitespaces
+        int sign = 1;   // positive then 1 else negative -1
+        int cnum = 0,num = 0;
+        for(int i = 0; i < str.length();i++) {
+            // To get the current number
+            cnum = str.charAt(i) - 48; // current digit
+            if(cnum >= 0 && cnum <= 9) {
+                // if number is greater than max value return max value
+                if (num > Integer.MAX_VALUE/10 || (num == Integer.MAX_VALUE / 10 && cnum > 7)) return Integer.MAX_VALUE;
+
+                    // if number is less than min value return min value
+                else if (num < Integer.MIN_VALUE/10 || (num == Integer.MIN_VALUE / 10 && cnum > 8)) return Integer.MIN_VALUE;
+
+
+                else {
+                    num = num *10 + sign * cnum;
+                }
+            }
+            else if(i == 0) {
+                if(str.charAt(i) == '+')
+                    continue;
+                else if(str.charAt(i) == '-')
+                    sign  = -1;
+                else break;
+            }
+            else break;
+        }
+        return num;
     }
 }
