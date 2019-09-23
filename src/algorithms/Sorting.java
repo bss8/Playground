@@ -141,8 +141,33 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
      *
      */
     @Override
-    public void quickSort() {
+    public long quickSort(int lowIndex, int highIndex) {
+        Instant start = Instant.now();
+        if (lowIndex < highIndex) {
+            int pivot = partition(lowIndex, highIndex);
+            quickSort(lowIndex, pivot - 1);
+            quickSort(pivot + 1, highIndex);
+        }
+        Instant finish = Instant.now();
+        return Duration.between(start, finish).toMillis();
+    }
 
+    private int partition(int low, int high) {
+        T x = objList.get(high);
+        int i = low - 1;
+        for (int j = low; j < high ; j++) {
+            if (objList.get(j).compareTo(x) <= 0) {
+                i++;
+                T temp = objList.get(i);
+                objList.set(i, objList.get(j));
+                objList.set(j, temp);
+            }
+        }
+        x = objList.get(i + 1);
+        objList.set(i + 1, objList.get(high));
+        objList.set(high, x);
+
+        return i + 1;
     }
 
     /**
