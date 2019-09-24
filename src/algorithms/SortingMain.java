@@ -48,7 +48,7 @@ public class SortingMain {
         System.out.println("duration: " + duration + "\n");
         sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
-        // TODO: QUICK SORT
+        // QUICK SORT
         System.out.println("original list: " + sorting.getObjList().toString());
         duration = sorting.quickSort(0, intList.size() - 1);  // low is start index, high is size - 1
         System.out.println("quick sorted list: " + sorting.getObjList().toString());

@@ -139,6 +139,9 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
 
     /**
      *
+     * @param lowIndex
+     * @param highIndex
+     * @return
      */
     @Override
     public long quickSort(int lowIndex, int highIndex) {
