@@ -1,8 +1,11 @@
 package algorithms;
 
+import datastructures.BasicHeap;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -173,12 +176,24 @@ public class Sorting<T extends Comparable<? super T>>  implements SortingAlgorit
         return i + 1;
     }
 
+
     /**
-     *
+     * Sort an ArrayList using the heap datastructure
+     * An in-place sorting algorithm with O(n log n) runtime
+     * @return the duration in milliseconds
      */
     @Override
-    public void heapSort() {
+    public long heapSort() {
+        Instant start = Instant.now();
 
+        BasicHeap<T> heap = new BasicHeap<>(objList);
+        heap.buildMaxHeap();
+        System.out.println("heap: " + heap.toString());
+
+        this.objList = heap.heapSort();
+
+        Instant finish = Instant.now();
+        return Duration.between(start, finish).toMillis();
     }
 
     /**

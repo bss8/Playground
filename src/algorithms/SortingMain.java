@@ -1,11 +1,15 @@
 package algorithms;
 
+import datastructures.BasicHeap;
+
 import java.util.*;
 
 /**
  *
  */
 public class SortingMain {
+
+    private static final int NUM_ITEMS = 100;  // modify to change size of test array
 
     /**
      * if {@code Sorting<Integer>} is declared as just {@code Sorting}, then compiler will issue warning
@@ -15,8 +19,8 @@ public class SortingMain {
      */
     public static void main(String...args) {
         ArrayList<Integer> intList = new ArrayList<>();
-        long duration = 0L;
-        for (int i = 0; i < 15001; i++) {
+        long duration;
+        for (int i = 0; i < NUM_ITEMS; i++) {
             int x = generateRandomInt();
             intList.add(x);
         }
@@ -56,6 +60,11 @@ public class SortingMain {
         sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
         // TODO: HEAP SORT
+        System.out.println("original list: " + sorting.getObjList().toString());
+        duration = sorting.heapSort();  // low is start index, high is size - 1
+        System.out.println("heap sorted list: " + sorting.getObjList().toString());
+        System.out.println("duration: " + duration + "\n");
+        sorting.setObjList(unsortedList); // set back to unsorted list to clear
 
         // TODO: RADIX SORT
 
@@ -81,7 +90,7 @@ public class SortingMain {
 
     private static int generateRandomInt() {
         Random r = new Random(System.nanoTime());
-        return r.nextInt(15000) + 1;
+        return r.nextInt(NUM_ITEMS) + 1;
     }
 
     private static int findMax(ArrayList<Integer> list) {
