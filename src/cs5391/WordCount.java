@@ -51,7 +51,7 @@ public class WordCount {
     public static void main(String argv[]) throws java.io.IOException {
 
         int i = getNext();
-        int charCount = 0; // holds a words character count
+        int charCount = 0; // holds a word's character count
         String largestWord = null;
 
         while (i != -1) {	// Repeat until end-of-file is reached.
@@ -68,15 +68,11 @@ public class WordCount {
                     i = getNext();
                 } while (i != -1 && !whiteSpace((char)i));
 
-                /*
-                 * We check if the word is bigger than what we previously found.
-                 * We don't care about equal to, because we only want the first largest word
-                 * (if we have multiple of the same length).
-                 */
+                 // We check if the word is bigger (but not equal) than what we previously found.
+                 // (if we have multiple of the same length, we just want the first).
                 if (stringBuilder.length() > charCount) {
                     charCount = stringBuilder.length();
                     largestWord = stringBuilder.toString();
-                    stringBuilder.delete(0, stringBuilder.length()); // clear the space for the next word
                 }
 
 
