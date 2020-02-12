@@ -16,15 +16,20 @@ public class TreeNode implements Node, Cloneable {
         id = i;
     }
 
+    /**
+     *
+     * @param n - node to add as child
+     * @param i - position (0 based)
+     */
     public void addChild(Node n, int i) {
         if (children == null) {
-            children = new Node[i + 1];
+            children = new Node[i + 1];  // initialize array
         } else if (i >= children.length) {
-            Node c[] = new Node[i + 1];
-            System.arraycopy(children, 0, c, 0, children.length);
-            children = c;
+            Node c[] = new Node[i + 1];  // create new array of size one bigger
+            System.arraycopy(children, 0, c, 0, children.length);  // copy old array into new
+            children = c;  // set children to point to new array
         }
-        children[i] = n;
+        children[i] = n;  // add child
     }
 
     public Node getChild(int i) {

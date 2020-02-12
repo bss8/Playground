@@ -36,19 +36,22 @@ public class Main {
 
         String[] expressionComponents = postfixExpression.split("\\s");
 
-        Deque<Integer> stack = new ArrayDeque<>();
-        TreeNode parentNode;
-        TreeNodeNum childNode;
+        Deque<TreeNode> stack = new ArrayDeque<>();
 
         for (String expressionComponent : expressionComponents) {
             if (expressionComponent.equals("+")) {
-                parentNode = new TreeNode(TreeNode.ADD);
-                stack.pop();
+                TreeNode addNode = new TreeNode(TreeNode.ADD);
+                addNode.addChild(stack.pop(), 1);  // right child first
+                addNode.addChild(stack.pop(), 0);  // left child
+                stack.push(addNode);
             } else if (expressionComponent.equals("/")) {
-                parentNode = new TreeNode(TreeNode.DIV);
+                TreeNode divNode = new TreeNode(TreeNode.DIV);
+                divNode.addChild(stack.pop(), 1);  // right child first
+                divNode.addChild(stack.pop(), 0);  // left child
+                stack.push(divNode);
             } else {
                 try {
-                    stack.push(Integer.parseInt(expressionComponent));
+                    stack.push(new TreeNodeNum(0));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }

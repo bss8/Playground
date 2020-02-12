@@ -1,16 +1,24 @@
 package cs5391;
 
 public class TreeNodeNum extends TreeNode {
+    protected int value;
 
-//    protected int value;
-
-    public TreeNodeNum(int i) {
-        super(i);
+    public TreeNodeNum(int id, int value) {
+        super(id);
+        this.setValue(value);
     }
 
     @Override
     public TreeNodeNum clone() throws CloneNotSupportedException {
         TreeNodeNum clone = (TreeNodeNum) super.clone();
-        return new TreeNodeNum(1);
+        return null;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
