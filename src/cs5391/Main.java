@@ -39,7 +39,21 @@ public class Main {
         TreeNode tree = TreeNodeNum.buildTree(expressionComponents);
         tree.dump("");
 
-        System.out.println("result: " + tree.evaluateTree(tree));
+        System.out.println("The value: " + tree.evaluateTree(tree));
+
+        tree.swapAndDouble();
+        tree.dump("");
+
+        TreeNode treeCopy = null;
+        try {
+            treeCopy = tree.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        if (treeCopy != null) {
+            treeCopy.dump("");
+        }
 
     }
 

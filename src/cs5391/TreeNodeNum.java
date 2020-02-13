@@ -1,8 +1,5 @@
 package cs5391;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 public class TreeNodeNum extends TreeNode {
     protected int value;
 
@@ -13,12 +10,6 @@ public class TreeNodeNum extends TreeNode {
     public TreeNodeNum(int id, int value) {
         super(id);
         this.setValue(value);
-    }
-
-    @Override
-    public TreeNodeNum clone() throws CloneNotSupportedException {
-        TreeNodeNum clone = (TreeNodeNum) super.clone();
-        return null;
     }
 
     public int getValue() {
@@ -34,7 +25,19 @@ public class TreeNodeNum extends TreeNode {
         return String.valueOf(value);
     }
 
-
-
-
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    public TreeNode clone() throws CloneNotSupportedException {
+        TreeNodeNum clonedTree = (TreeNodeNum) super.clone();
+        clonedTree = new TreeNodeNum(id, value);
+        for (int i = 0; i < getNumChildren(); i++) {
+            TreeNodeNum tmp = (TreeNodeNum) children[i];
+            clonedTree.addChild(new TreeNodeNum(tmp.id), i);
+        }
+        return clonedTree;
+    }
 }

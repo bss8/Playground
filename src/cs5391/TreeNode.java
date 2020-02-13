@@ -84,8 +84,13 @@ public class TreeNode implements Node, Cloneable {
      * @throws CloneNotSupportedException
      */
     public TreeNode clone() throws CloneNotSupportedException {
-        TreeNode clone = (TreeNode) super.clone();
-        return new TreeNode(1);
+        TreeNode clonedTree = (TreeNode) super.clone();
+        clonedTree = new TreeNode(id);
+        for (int i = 0; i < getNumChildren(); i++) {
+            TreeNode tmp = (TreeNode) children[i];
+            clonedTree.addChild(new TreeNode(tmp.id), i);
+        }
+        return clonedTree;
     }
 
     /**
@@ -138,6 +143,30 @@ public class TreeNode implements Node, Cloneable {
                 return evaluateTree((TreeNode) node.getChild(0)) / evaluateTree((TreeNode) node.getChild(1));
             } catch (ArithmeticException e) {
                 throw new ArithmeticException("You attempted to divide by zero. Please try again.");
+            }
+        }
+    }
+
+    public void swapAndDouble() {
+        if (id == 1) {
+            id = 4;
+        } else if (id == 4) {
+            id = 1;
+        }
+
+        for (int i = 0; i < children.length; i++) {
+            if (children[i] instanceof TreeNodeNum) {
+                TreeNodeNum treeNodeNum = (TreeNodeNum) children[i];
+                treeNodeNum.value = treeNodeNum.value * 2;
+                children[i] = treeNodeNum;
+            } else {
+                TreeNode treeNode = (TreeNode) children[i];
+                if (treeNode.id == 1) {
+                    treeNode.id = 4;
+                } else if (treeNode.id == 4) {
+                    treeNode.id = 1;
+                }
+                children[i] = treeNode;
             }
         }
     }
