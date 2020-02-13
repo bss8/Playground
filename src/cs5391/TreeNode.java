@@ -48,8 +48,7 @@ public class TreeNode implements Node, Cloneable {
      toString(String), otherwise overriding toString() is probably all
      you need to do.
 
-     Modified by Boris - TreeNodeNum holds integer value and will be of id == 0 always
-     So, we modify toString here to display + or / according to the ID of TreeNode type object.
+     Modified by Boris - to display + or / according to the ID of TreeNode type object.
      */
 
     public String toString() {
@@ -79,7 +78,8 @@ public class TreeNode implements Node, Cloneable {
     }
 
     /**
-     * Clone a TreeNode type
+     * Clone a TreeNode type.
+     * Deep copy - propagate throughout all children for their respective type.
      * @param node
      * @return
      */
@@ -94,7 +94,7 @@ public class TreeNode implements Node, Cloneable {
 
     /**
      * Builds a tree given a string array containing a postfix expression
-     *
+     * The tree will contain objects of both TreeNode and TreeNodeNum types.
      * @param expression
      * @return
      */
@@ -151,6 +151,9 @@ public class TreeNode implements Node, Cloneable {
         }
     }
 
+    /**
+     * For TreeNode, the swapAndDouble simply swaps + with / and vice versa
+     */
     public void swapAndDouble() {
         if (id == 1) {
             id = 4;

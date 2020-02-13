@@ -3,17 +3,9 @@ package cs5391;
 public class TreeNodeNum extends TreeNode {
     protected int value;
 
-    public TreeNodeNum(int id) {
-        super(id);
-    }
-
     public TreeNodeNum(int id, int value) {
         super(id);
         this.setValue(value);
-    }
-
-    public int getValue() {
-        return value;
     }
 
     public void setValue(int value) {
@@ -30,6 +22,7 @@ public class TreeNodeNum extends TreeNode {
 
     /**
      * Clone a TreeNodeNum type
+     * Deep copy - propagate throughout all children for their respective type.
      * @param node
      * @return
      */
@@ -67,7 +60,8 @@ public class TreeNodeNum extends TreeNode {
     }
 
     /**
-     *
+     * For TreeNodeNum, we override swapAndDouble from TreeNode.
+     * Here we double the value when the node is of type TreeNodeNum.
      */
     @Override
     public void swapAndDouble() {
