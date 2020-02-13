@@ -22,22 +22,60 @@ public class TreeNodeNum extends TreeNode {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return "" + value;
+    }
+
+    @Override
+    public String toString(String prefix) { return prefix + toString(); }
+
+    /**
+     * Clone a TreeNodeNum type
+     * @param node
+     * @return
+     */
+    @Override
+    public TreeNode clone(TreeNode node) {
+        TreeNodeNum tmp = (TreeNodeNum) node;
+        TreeNodeNum treeNodeNum = new TreeNodeNum(tmp.id, tmp.value);
+
+       for (int i = 0; i < node.getNumChildren(); i++) {
+           treeNodeNum.addChild(node.getChild(i).clone((TreeNode) getChild(i)), i);
+       }
+       return treeNodeNum;
+    }
+
+    /**
+     * Evaluate the tree and return the integer result.
+     * @param node
+     * @return
+     */
+    @Override
+    public int evaluateTree(TreeNode node) {
+        if (node.getNumChildren() == 0) {
+            return value;
+        }
+
+        if (node.id == 1) {
+            return evaluateTree((TreeNode) node.getChild(0)) + evaluateTree((TreeNode) node.getChild(1));
+        } else {
+            try {
+                return evaluateTree((TreeNode) node.getChild(0)) / evaluateTree((TreeNode) node.getChild(1));
+            } catch (ArithmeticException e) {
+                throw new ArithmeticException("You attempted to divide by zero. Please try again.");
+            }
+        }
     }
 
     /**
      *
-     * @return
-     * @throws CloneNotSupportedException
      */
     @Override
-    public TreeNode clone() throws CloneNotSupportedException {
-        TreeNodeNum clonedTree = (TreeNodeNum) super.clone();
-        clonedTree = new TreeNodeNum(id, value);
-        for (int i = 0; i < getNumChildren(); i++) {
-            TreeNodeNum tmp = (TreeNodeNum) children[i];
-            clonedTree.addChild(new TreeNodeNum(tmp.id), i);
+    public void swapAndDouble() {
+        value = value * 2;
+        if (children != null) {
+            for (int i = 0; i < children.length; i++) {
+                children[i].swapAndDouble();
+            }
         }
-        return clonedTree;
     }
 }

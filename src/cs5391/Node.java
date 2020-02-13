@@ -15,4 +15,10 @@ public interface Node {
 
     /* Return the number of children the node has. */
     public int getNumChildren();
+
+    // Added by Boris
+    /* clone a TreeNode, with subclasses overriding with their own implementation */
+    public TreeNode clone(TreeNode node);
+    /* Helper function to swap + and / and also double the numeric value. Each class implements its own version */
+    public void swapAndDouble();
 }

@@ -1,15 +1,5 @@
 package cs5391;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StreamTokenizer;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -25,8 +15,6 @@ import java.util.Scanner;
  * Re-evaluate the original tree.
  */
 public class Main {
-    private static final int DIV_CHAR = '/';
-    private static final int PLUS_CHAR = '+';
 
     public static void main(String...args) {
         System.out.println(">>> Simplified Arithmetic Post-fix Expression Evaluator <<<");
@@ -35,28 +23,35 @@ public class Main {
         String postfixExpression = getExpressionFromUser();  // receive user input
         System.out.println("Postfix expression is: " + postfixExpression);
 
+        // A quick check to validate user input:
+        // "...input consisting of non-negative numbers and the '+' (addition) and '/' (division) operators."
+        if (postfixExpression.contains("-") || postfixExpression.contains("*")) {
+            throw new IllegalArgumentException("Please only enter positive values and the + or / operators.");
+        }
+
         String[] expressionComponents = postfixExpression.split("\\s");
-        TreeNode tree = TreeNodeNum.buildTree(expressionComponents);
+        System.out.println("The tree representation: ");
+        TreeNode tree = TreeNode.buildTree(expressionComponents);
         tree.dump("");
 
         System.out.println("The value: " + tree.evaluateTree(tree));
+        System.out.println();
 
-        tree.swapAndDouble();
+        TreeNode treeCopy = tree.clone(tree);
+        System.out.println("The new tree: ");
+        treeCopy.swapAndDouble();
+        treeCopy.dump("");
+
+        System.out.println("The value of the new tree: " + treeCopy.evaluateTree(treeCopy));
+        System.out.println();
+        System.out.println("The original tree representation: ");
         tree.dump("");
-
-        TreeNode treeCopy = null;
-        try {
-            treeCopy = tree.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-
-        if (treeCopy != null) {
-            treeCopy.dump("");
-        }
-
     }
 
+    /**
+     * Obtain user input
+     * @return a string containing space separated values
+     */
     private static String getExpressionFromUser() {
         Scanner myObj = new Scanner(System.in);
         String postfixExpression;

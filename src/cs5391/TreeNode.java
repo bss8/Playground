@@ -46,22 +46,23 @@ public class TreeNode implements Node, Cloneable {
      customize the way the node appears when the tree is dumped.  If
      your output uses more than one line you should override
      toString(String), otherwise overriding toString() is probably all
-     you need to do. */
+     you need to do.
+
+     Modified by Boris - TreeNodeNum holds integer value and will be of id == 0 always
+     So, we modify toString here to display + or / according to the ID of TreeNode type object.
+     */
 
     public String toString() {
-        //return "Node: " + id;
         if (id == 1) {
             return "+";
         } else if (id == 4) {
             return "/";
         } else {
-            return "" + id;
+            return "Node: " + id;
         }
     }
 
-    public String toString(String prefix) {
-        return prefix + toString();
-    }
+    public String toString(String prefix) { return prefix + toString(); }
 
     /* Override this method if you want to customize how the node dumps
        out its children. */
@@ -69,7 +70,7 @@ public class TreeNode implements Node, Cloneable {
         System.out.println(toString(prefix));
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {
-                TreeNode n = (TreeNode) children[i];
+                TreeNode n = (TreeNode)children[i];
                 if (n != null) {
                     n.dump(prefix + " ");
                 }
@@ -78,19 +79,17 @@ public class TreeNode implements Node, Cloneable {
     }
 
     /**
-     * Clones a tree
-     *
+     * Clone a TreeNode type
+     * @param node
      * @return
-     * @throws CloneNotSupportedException
      */
-    public TreeNode clone() throws CloneNotSupportedException {
-        TreeNode clonedTree = (TreeNode) super.clone();
-        clonedTree = new TreeNode(id);
-        for (int i = 0; i < getNumChildren(); i++) {
-            TreeNode tmp = (TreeNode) children[i];
-            clonedTree.addChild(new TreeNode(tmp.id), i);
+    public TreeNode clone(TreeNode node) {
+        TreeNode treeNode = new TreeNode(node.id);
+
+        for (int i = 0; i < node.getNumChildren(); i++) {
+            treeNode.addChild(node.getChild(i).clone((TreeNode) getChild(i)), i);
         }
-        return clonedTree;
+        return treeNode;
     }
 
     /**
@@ -129,6 +128,11 @@ public class TreeNode implements Node, Cloneable {
         return stack.pop();
     }
 
+    /**
+     * Evaluate the tree and return integer result
+     * @param node
+     * @return
+     */
     public int evaluateTree(TreeNode node) {
         if ((node.getNumChildren() == 0)
                 && (node instanceof TreeNodeNum)) {
@@ -155,19 +159,7 @@ public class TreeNode implements Node, Cloneable {
         }
 
         for (int i = 0; i < children.length; i++) {
-            if (children[i] instanceof TreeNodeNum) {
-                TreeNodeNum treeNodeNum = (TreeNodeNum) children[i];
-                treeNodeNum.value = treeNodeNum.value * 2;
-                children[i] = treeNodeNum;
-            } else {
-                TreeNode treeNode = (TreeNode) children[i];
-                if (treeNode.id == 1) {
-                    treeNode.id = 4;
-                } else if (treeNode.id == 4) {
-                    treeNode.id = 1;
-                }
-                children[i] = treeNode;
-            }
+            children[i].swapAndDouble();
         }
     }
 }
