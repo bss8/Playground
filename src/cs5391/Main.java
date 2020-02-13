@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -35,30 +36,10 @@ public class Main {
         System.out.println("Postfix expression is: " + postfixExpression);
 
         String[] expressionComponents = postfixExpression.split("\\s");
+        TreeNode tree = TreeNodeNum.buildTree(expressionComponents);
+        tree.dump("");
 
-        Deque<TreeNode> stack = new ArrayDeque<>();
-
-        for (String expressionComponent : expressionComponents) {
-            if (expressionComponent.equals("+")) {
-                TreeNode addNode = new TreeNode(TreeNode.ADD);
-                addNode.addChild(stack.pop(), 1);  // right child first
-                addNode.addChild(stack.pop(), 0);  // left child
-                stack.push(addNode);
-            } else if (expressionComponent.equals("/")) {
-                TreeNode divNode = new TreeNode(TreeNode.DIV);
-                divNode.addChild(stack.pop(), 1);  // right child first
-                divNode.addChild(stack.pop(), 0);  // left child
-                stack.push(divNode);
-            } else {
-                try {
-                    stack.push(new TreeNodeNum(0));
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
+        System.out.println("result: " + tree.evaluateTree(tree));
 
     }
 

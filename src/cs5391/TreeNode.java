@@ -2,6 +2,9 @@ package cs5391;
 
 /* This is a simple TreeNode that implements the Node interface. */
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class TreeNode implements Node, Cloneable {
     public static final int NUM = 0;
     public static final int ADD = 1;
@@ -17,7 +20,6 @@ public class TreeNode implements Node, Cloneable {
     }
 
     /**
-     *
      * @param n - node to add as child
      * @param i - position (0 based)
      */
@@ -46,11 +48,23 @@ public class TreeNode implements Node, Cloneable {
      toString(String), otherwise overriding toString() is probably all
      you need to do. */
 
-    public String toString() { return "Node: " + id; }
-    public String toString(String prefix) { return prefix + toString(); }
+    public String toString() {
+        //return "Node: " + id;
+        if (id == 1) {
+            return "+";
+        } else if (id == 4) {
+            return "/";
+        } else {
+            return "" + id;
+        }
+    }
 
-  /* Override this method if you want to customize how the node dumps
-     out its children. */
+    public String toString(String prefix) {
+        return prefix + toString();
+    }
+
+    /* Override this method if you want to customize how the node dumps
+       out its children. */
     public void dump(String prefix) {
         System.out.println(toString(prefix));
         if (children != null) {
@@ -65,11 +79,66 @@ public class TreeNode implements Node, Cloneable {
 
     /**
      * Clones a tree
+     *
      * @return
      * @throws CloneNotSupportedException
      */
     public TreeNode clone() throws CloneNotSupportedException {
         TreeNode clone = (TreeNode) super.clone();
         return new TreeNode(1);
+    }
+
+    /**
+     * Builds a tree given a string array containing a postfix expression
+     *
+     * @param expression
+     * @return
+     */
+    public static TreeNode buildTree(String[] expression) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+
+        for (String element : expression) {
+            // handle + operator, always a parent with two children
+            if (element.equals("+")) {
+                TreeNode addNode = new TreeNode(TreeNodeNum.ADD);
+                addNode.addChild(stack.pop(), 1);  // right child first
+                addNode.addChild(stack.pop(), 0);  // left child
+                stack.push(addNode);
+                // handle / operator, always a parent with two children
+            } else if (element.equals("/")) {
+                TreeNode divNode = new TreeNode(TreeNodeNum.DIV);
+                divNode.addChild(stack.pop(), 1);  // right child first
+                divNode.addChild(stack.pop(), 0);  // left child
+                stack.push(divNode);
+            } else {
+                try {
+                    int val = Integer.parseInt(element);
+                    TreeNodeNum treeNodeNum = new TreeNodeNum(0, val);
+                    stack.push(treeNodeNum);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    System.out.println("Message:  " + e.getMessage());
+                }
+            }
+        }
+        return stack.pop();
+    }
+
+    public int evaluateTree(TreeNode node) {
+        if ((node.getNumChildren() == 0)
+                && (node instanceof TreeNodeNum)) {
+            TreeNodeNum tn = (TreeNodeNum) node;
+            return tn.value;
+        }
+
+        if (node.id == 1) {
+            return evaluateTree((TreeNode) node.getChild(0)) + evaluateTree((TreeNode) node.getChild(1));
+        } else {
+            try {
+                return evaluateTree((TreeNode) node.getChild(0)) / evaluateTree((TreeNode) node.getChild(1));
+            } catch (ArithmeticException e) {
+                throw new ArithmeticException("You attempted to divide by zero. Please try again.");
+            }
+        }
     }
 }
