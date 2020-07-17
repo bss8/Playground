@@ -1,7 +1,5 @@
 package leetcode;
 
-import org.omg.PortableInterceptor.INACTIVE;
-
 import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
