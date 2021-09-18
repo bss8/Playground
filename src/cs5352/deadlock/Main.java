@@ -1,5 +1,7 @@
 package cs5352.deadlock;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
@@ -7,10 +9,10 @@ import java.util.stream.IntStream;
  * Philosophers are sitting at a round table. Each has a left and a right chopstick next to them.
  * There are a total of 5 philosophers and 5 chopsticks on the table. Can they all eat without starving?
  * That is - can the limited chopstick resources be shared without causing deadlock? We must avoid these conditions:
- *   - circular wait
- *   - no preemption
- *   - mutual exclusion
- *   - hold and wait
+ * - circular wait
+ * - no preemption
+ * - mutual exclusion
+ * - hold and wait
  */
 public class Main {
 
@@ -33,5 +35,34 @@ public class Main {
             }
             philosopher[i].start();
         });
+        System.out.println("Hi1");
+
+        String str = "Johnny likes to go outside but the weather has been so hot lately I don't think he'll be able to " +
+                "go unless his mother is cool with sunburns all over his body. Someone needs to help him understand that " +
+                "money doesn't grow on trees and unless you have sunscreen money then don't ask to go outside. \n" +
+                "\n" +
+                "Melissa likes to go outside too but she wouldn't have anybody to play with because johnny's mom turned " +
+                "psycho. Kids get sunburned...that's just some kid stuff to do... why are you upset at that?";
+
+        String[] data = str.split("\n");
+        ArrayList<String> paragraphs = new ArrayList<>();
+        StringBuilder paragraph = new StringBuilder(100);
+        for (int i = 0; i < data.length; i++) {
+            String line = data[i];
+            if (line.trim().isEmpty()) {
+                System.out.println("New paragraph detected!");
+                // this is your new paragraph indicator
+                paragraphs.add(paragraph.toString());
+                paragraph.setLength(0); // clear StringBuilder
+            } else {
+                // we are in an existing paragraph
+                paragraph.append(line);
+            }
+            // check if we're at the end, we need to add last paragraph to results set
+            if (i == data.length - 1) {
+                paragraphs.add(paragraph.toString());
+            }
+        }
+        System.out.println(paragraphs.toString());
     }
 } // end class Main
