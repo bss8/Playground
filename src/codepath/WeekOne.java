@@ -8,6 +8,10 @@ public class WeekOne {
 
         System.out.println("nth fib term: " + nthFibValue(32));
         System.out.println("sum of even fib values under 4mil: " + sumEvenFibs());
+
+        String subStr = "suited to";
+        String mainStr = "Am I suited to this career?";
+        System.out.println("Is " + subStr + " a substring of " + mainStr + "? " + isSubstring(mainStr, subStr));
     }
 
     // Find the sum of all the multiples of 3 or 5 below 1000.
@@ -43,6 +47,24 @@ public class WeekOne {
                 sum += i;
         }
         return sum;
+    }
+
+    public static boolean isSubstring(String main, String sub) {
+        if (main.equals("") || sub.equals(""))
+            return false;
+        else {
+            loop1: for (int i = 0; i < main.length(); i++) {
+                if (main.charAt(i) == sub.charAt(0)) {
+                    for (int j = 1, x = i + 1; j < sub.length(); j++, x++) {
+                        if (main.charAt(x) != sub.charAt(j))
+                            continue loop1;
+                        else if (j == sub.length()-1)
+                            return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }
