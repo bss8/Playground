@@ -644,8 +644,16 @@ class Easy {
 
     // https://leetcode.com/problems/happy-number/
     public boolean isHappy(int n) {
-
-        return false;
+        int sum = 0;
+        while(n > 6){
+            for(int i=n; i>0; i=i/10){
+                int j = i % 10;
+                sum+=j * j;
+            }
+            n=sum;
+            sum=0;
+        }
+        return n == 1;
     }
 
     public int romanToInt(String s) {
