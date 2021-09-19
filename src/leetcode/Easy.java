@@ -636,4 +636,15 @@ class Easy {
         }
         return num;
     }
+
+    // https://leetcode.com/problems/happy-number/
+    public boolean isHappy(int n) {
+
+        return false;
+    }
+
+    public int romanToInt(String s) {
+
+        return 0;
+    }
 }
