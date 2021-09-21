@@ -1,5 +1,7 @@
 package datastructures;
 
+import java.util.ArrayList;
+
 public class DataStructuresMain {
 
     public static void main(String...args) {
@@ -37,5 +39,15 @@ public class DataStructuresMain {
         int position = 1;
         System.out.println("item at pos." + position + " is: " + myQueue.access(position));
         System.out.println("contains 1? " + myQueue.contains(1));
+
+        // BASIC HEAP
+
+        int[] heapArray = {8, 32, 27, 10, 20, 6, 20, 84, 9, 14};
+        ArrayList<Integer> heapList = new ArrayList<>();
+        for (int i : heapArray)
+            heapList.add(i);
+        BasicHeap<Integer> myHeap = new BasicHeap<>(heapList);
+        myHeap.buildMaxHeap();
+
     }
 }

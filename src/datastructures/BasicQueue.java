@@ -18,7 +18,8 @@ public class BasicQueue<T extends Comparable<? super T>> implements Queue<T> {
     public BasicQueue(int size) {
         this.front = -1;
         this.end = -1;
-        data = (T[]) new Object[size];
+        // https://stackoverflow.com/questions/34827626/cannot-be-cast-to-ljava-lang-comparable
+        data = (T[]) new Comparable[size];
         ArrayList e;
     }
 
