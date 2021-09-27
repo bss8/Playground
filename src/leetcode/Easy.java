@@ -3,11 +3,7 @@ package leetcode;
 import javax.xml.bind.DatatypeConverter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -176,6 +172,20 @@ class Easy {
         String romanNum = "MMCCCXLVII";
         System.out.println("The numeric value for " + romanNum + " is: " + easyProblems.romanToInt(romanNum));
 
+        System.out.println();
+        System.out.println("--------------------------");
+        int[] nums1 = {4,9,5};
+        int[] nums2 = {9,4,9,8,4};
+        int[] intersection = easyProblems.intersectionOfTwoArrays(nums1, nums2);
+        System.out.print("Intersection of " + easyProblems.printArray(nums1) +
+                " and " + easyProblems.printArray(nums2) + " is: " + easyProblems.printArray(intersection));
+
+        System.out.println();
+        System.out.println("--------------------------");
+        String s = "abcabcabcabcdefg";
+        System.out.println("[O(N^2)] Length of longest substring in " + s + " is: " + easyProblems.lengthOfLongestSubstring(s));
+        System.out.println("[      ] Length of longest substring in " + s + " is: " + easyProblems.subarrayLength(s));
+        System.out.println("[O(N)  ] Length of longest substring in " + s + " is: " + easyProblems.subarrayLengthAlt(s));
     }
 
     private StringBuilder s = new StringBuilder();
@@ -695,5 +705,137 @@ class Easy {
             default:
                 return 0;
         }
+    }
+
+    public int[] intersectionOfTwoArrays(int[] nums1, int[] nums2) {
+        HashSet<Integer> hashSet = new HashSet<>();
+        HashSet<Integer> finalSet = new HashSet<>();
+
+        for (int i : nums1)
+            hashSet.add(i);
+
+        for (int j : nums2) {
+            if (hashSet.contains(j))
+                finalSet.add(j);
+        }
+
+        int[] intersection = new int[finalSet.size()];
+        int idx = 0;
+        for (int k : finalSet) {
+            intersection[idx++] = k;
+        }
+        return intersection;
+    }
+
+    public String printArray(int[] a) {
+        StringBuilder stringBuilder = new StringBuilder(a.length);
+        stringBuilder.append("[");
+        for (int i = 0; i < a.length; i++) {
+            stringBuilder.append(a[i]);
+            if (i != a.length - 1)
+                stringBuilder.append(",");
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
+    }
+
+    /**
+     * https://leetcode.com/problems/longest-substring-without-repeating-characters/submissions/
+     *
+     * Slow runtime O(N^2)
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() == 1)
+            return 1;
+
+        StringBuilder sb = new StringBuilder(s.length());
+        HashSet<String> hashset = new HashSet<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (sb.indexOf(Character.toString(s.charAt(i))) == -1)
+                sb.append(s.charAt(i));
+
+            for (int j = i+1; j < s.length(); j++) {
+                if (sb.indexOf(Character.toString(s.charAt(j))) == -1)
+                    sb.append(s.charAt(j));
+                else {
+                    hashset.add(sb.toString());
+                    sb.delete(0, sb.toString().length());
+                    break;
+                }
+            }
+            hashset.add(sb.toString());
+        }
+
+        int longest = 0;
+        for (String str : hashset) {
+            if (str.length() > longest)
+                longest = str.length();
+        }
+        return longest;
+    }
+
+    /**
+     * https://leetcode.com/problems/longest-substring-without-repeating-characters/submissions/
+     *
+     * Unique fast solution, what is the runtime?
+     * @param s
+     * @return
+     */
+    public int subarrayLength(String s) {
+        int len = 0;
+        int maxLen = 0;
+        int subIndex = 0;
+        int k = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            while (k < i && s.charAt(k) != s.charAt(i)){
+                k++;
+            }
+
+            maxLen = Math.max(maxLen, len);
+
+            if (k < i) {
+                subIndex = k + 1;
+                len = i - k - 1;
+            }
+
+            k = subIndex;
+            len++;
+        }
+
+        return Math.max(maxLen, len);
+    }
+
+    /**
+     * https://leetcode.com/problems/longest-substring-without-repeating-characters/submissions/
+     * https://hackmd.io/@YargtAEbS02eDE3upLu27g/r1spn3viO
+     * Using a dictionary
+     * @param s
+     * @return
+     */
+    public int subarrayLengthAlt(String s) {
+        if (s.length() == 0)
+            return 0;
+        else if (s.length() == 1)
+            return 1;
+
+        HashMap<Character, Integer> hashMap = new HashMap<>();
+        int currLength = 0;
+        int maxLength = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (hashMap.containsKey(s.charAt(i)) && (hashMap.get(s.charAt(i)) >= i - currLength)) {
+                currLength = i - hashMap.get(s.charAt(i));
+                hashMap.replace(s.charAt(i), i);
+            } else {
+                hashMap.put(s.charAt(i), i);
+                currLength += 1;
+            }
+            maxLength = Math.max(maxLength, currLength);
+        }
+        return maxLength;
     }
 }
