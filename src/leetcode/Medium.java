@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class Medium {
 
+
     ListNode node1;
     ListNode node2;
 
@@ -18,15 +19,28 @@ public class Medium {
         this.node2.next.next.next = null;
     }
 
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
-        ListNode(int x) { val = x; }
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 
     public static void main(String...args) {
         Medium medium = new Medium();
         medium.addTwoNumbers(medium.node1, medium.node2);
+
+        ListNode head       = new ListNode(1);
+        ListNode nodeTwo    = new ListNode(2);
+        ListNode nodeThree  = new ListNode(3);
+        ListNode nodeFour   = new ListNode(4);
+        head.next = nodeTwo;
+        nodeTwo.next = nodeThree;
+        nodeThree.next = nodeFour;
+        nodeFour.next = null;
+
+        medium.swapPairs(head);
     }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -59,5 +73,31 @@ public class Medium {
         System.out.println(sum.val + "|" + sum.next.val + "|" + sum.next.next.val);
 
         return sum;
+    }
+
+    /**
+     * https://leetcode.com/problems/swap-nodes-in-pairs/
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        // single or empty list edge case
+        if (head.next == null || head == null)
+            return head;
+
+        ListNode dummyHead = new ListNode();
+        ListNode curr = head;
+        ListNode prev = dummyHead;
+
+
+        while (curr != null && curr.next != null) {
+            prev.next = curr.next;
+            curr.next = curr.next.next;
+            prev.next.next = curr;
+            curr = curr.next;
+            prev = prev.next.next;
+        }
+
+        return dummyHead.next;
     }
 }
