@@ -1,47 +1,6 @@
 package codepath;
 
 public class WeekFour {
-    public static class Node {
-        Node next;
-        int data;
-
-        Node(int data) {
-            this.next = null;
-            this.data = data;
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder(50);
-            sb.append("[ ");
-            sb.append(this.data);
-            sb.append(" ]");
-            Node tmpNext = this.next;
-
-            while (next != null) {
-                sb.append(" -> ");
-                sb.append("[ ");
-                sb.append(next.data);
-                sb.append(" ]");
-                next = next.next;
-            }
-            sb.append(" -> |||"); // null terminal symbol
-            next = tmpNext; // need to restore next ptr after mutating
-            return sb.toString();
-        }
-
-        public boolean equals(Node n) {
-            if (data != n.data)
-                return false;
-
-            if (next == null)
-                return n.next == null;
-
-            return next.equals(n.next);
-        }
-    }
-
-
     public static void main(String... args) {
         System.out.println("--- Add two numbers as Lists ---");
         System.out.println("--- 12,342 + 465 = 12,807; List prints from least significant digit ---");
