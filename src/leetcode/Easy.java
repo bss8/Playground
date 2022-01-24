@@ -186,6 +186,11 @@ class Easy {
         System.out.println("[O(N^2)] Length of longest substring in " + s + " is: " + easyProblems.lengthOfLongestSubstring(s));
         System.out.println("[      ] Length of longest substring in " + s + " is: " + easyProblems.subarrayLength(s));
         System.out.println("[O(N)  ] Length of longest substring in " + s + " is: " + easyProblems.subarrayLengthAlt(s));
+
+        System.out.println();
+        System.out.println("--------------------------");
+        int prime = 7;
+        System.out.println("Next prime of " + prime + " is: " + easyProblems.nextPrime(prime));
     }
 
     private StringBuilder s = new StringBuilder();
@@ -838,4 +843,28 @@ class Easy {
         }
         return maxLength;
     }
+
+    private int nextPrime(int prime) {
+        if (prime < 2)
+            return 2;
+
+        while(true) {
+            prime++;
+            if (isPrime(prime))
+                return prime;
+        }
+    }
+
+    private boolean isPrime(int num) {
+        if (num <= 1)
+            return false;
+
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
