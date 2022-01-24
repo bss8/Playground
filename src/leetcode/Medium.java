@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class Medium {
 
@@ -41,6 +42,15 @@ public class Medium {
         nodeFour.next = null;
 
         medium.swapPairs(head);
+
+        System.out.println("----Max Subarray----");
+        int[] arr = new int[] {5,4,-1,7,8};
+        System.out.println(medium.maxSubArray(arr));
+        System.out.println(medium.maxSubArrayDp(arr));
+
+        int[] nums = new int[] {2,0,2,1,1,0};
+        medium.quicksort(nums, 0, nums.length-1);
+        System.out.println(Arrays.toString(nums));
     }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -99,5 +109,132 @@ public class Medium {
         }
 
         return dummyHead.next;
+    }
+
+    /**
+     * Regular approach
+     * @param nums
+     * @return
+     */
+    public int maxSubArrayReg(int[] nums) {
+        int sum=0,max=nums[0];
+
+        for (int num : nums) {
+            sum += num;
+            if (sum > max)
+                max = sum;
+            if (sum < 0)
+                sum = 0;
+        }
+
+        return max;
+    }
+
+    /**
+     * Max subarray using DP
+     * @param nums
+     * @return
+     */
+    public int maxSubArrayDp(int[] nums) {
+        //dp[i] means the maximum subarray ending with A[i];
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int max = dp[0];
+
+        for(int i = 1; i < nums.length; i++){
+            dp[i] = nums[i] + (Math.max(dp[i - 1], 0));
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
+    }
+
+    /**
+     * Using divide-and-conquer
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        int[] res = findMaxSub(nums, 0, nums.length-1);
+        return res[2]; // sum of the max subarray
+    }
+
+    public int[] findMaxSub(int[] nums, int low, int high) {
+        if (high == low)
+            return new int[] {low, high, nums[low]};
+        else {
+            int mid = (low + high) / 2;
+            int[] left = findMaxSub(nums, low, mid);
+            int[] right = findMaxSub(nums, mid+1, high);
+            int[] cross = findMaxCross(nums, low, mid, high);
+
+            if (left[2] >= right[2] &&
+                    left[2] >= cross[2])
+                return left;
+            else if (right[2] >= left[2] &&
+                    right[2] >= cross[2])
+                return right;
+            else
+                return cross;
+        }
+    }
+
+    public int[] findMaxCross(int[] nums, int low,
+                              int mid, int high) {
+        int leftSum = Integer.MIN_VALUE;
+        int sum = 0;
+        int maxLeft = 0, maxRight = 0;
+        for (int i = mid; i >= low; i--) {
+            sum = sum + nums[i];
+            if (sum > leftSum) {
+                leftSum = sum;
+                maxLeft = i;
+                System.out.println("left sum " + leftSum);
+
+            }
+        }
+
+        int rightSum = Integer.MIN_VALUE;
+        sum = 0;
+        for (int j = mid+1; j <= high; j++) {
+            sum = sum + nums[j];
+            if (sum > rightSum) {
+                rightSum = sum;
+                maxRight = j;
+                System.out.println("right sum " + rightSum);
+
+            }
+        }
+        System.out.println("FIN right sum " + rightSum);
+        System.out.println("FIN left sum " + leftSum);
+        return new int[] {maxLeft, maxRight, leftSum + rightSum};
+    }
+
+
+    private void quicksort(int[] nums, int p, int r) {
+        if (p < r) {
+            int q = partition(nums, p, r);
+            quicksort(nums, p, q-1);
+            quicksort(nums, q+1, r);
+        }
+    }
+
+    private int partition(int[] nums, int p, int r) {
+        int pivot = nums[r];
+        int i = p - 1;
+        for (int j = p; j < r; j++) {
+            if (nums[j] <= pivot) {
+                i++;
+                swap(nums, i, j);
+            }
+        }
+        swap(nums, i+1, r);
+        return i+1;
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
     }
 }
